@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from "react";
 import LocationSelector from "../components/LocationSelector";
 import WeatherSummary from "../components/WeatherSummary";
