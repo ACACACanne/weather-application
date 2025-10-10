@@ -37,92 +37,100 @@ export default function Page() {
   }, [selectedCity, forecastDays]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-black via-teal-900 to-black text-white p-6 flex flex-col items-center">
-      {/* Top Controls */}
-      <div className="w-full mb-8">
-        <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-4 bg-white/10 p-6 rounded-md border border-white/20">
-          <div className="flex flex-col">
-            <h1 className="text-3xl font-bold">Weather Forecast</h1>
-            <p className="text-white/80 text-sm">
-              Get data for any city worldwide.
-            </p>
-          </div>
-          <div className="flex-grow">
-            <LocationSelector onCityFound={setSelectedCity} />
-          </div>
-          <div className="flex items-center gap-2">
-            <label htmlFor="forecast-range" className="text-white text-sm">
-              Forecast Range:
-            </label>
-            <select
-              id="forecast-range"
-              value={forecastDays}
-              onChange={(e) => setForecastDays(Number(e.target.value))}
-              className="bg-white/10 text-white p-2 rounded border border-white/20 focus:outline-none"
-            >
-              <option value={7}>7 Days</option>
-              <option value={14}>14 Days</option>
-              <option value={30}>30 Days</option>
-            </select>
+    <>
+      <main className="min-h-screen bg-gradient-to-br from-black via-teal-900 to-black text-white p-4 flex flex-col items-center">
+        {/* Top Controls */}
+        
+        <div className="w-full mb-8">
+          <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-6 bg-white/10 p-6 rounded-md border border-double-white/20">
+            <div className="flex flex-col gap-2">
+              <h1 className="text-3xl font-bold">Weather Forecast</h1>
+              <p className="text-white/80 text-sm">
+                Get data for any city worldwide.
+              </p>
+            </div>
+            <div className="flex-grow">
+              <LocationSelector onCityFound={setSelectedCity} />
+            </div>
+            <div className="flex items-center gap-4">
+              <label htmlFor="forecast-range" className="text-white text-sm">
+                Forecast Range:
+              </label>
+              <select
+                id="forecast-range"
+                value={forecastDays}
+                onChange={(e) => setForecastDays(Number(e.target.value))}
+                className="bg-white/10 text-white p-2 rounded border border-white/20 focus:outline-none"
+              >
+                <option value={7}>7 Days</option>
+                <option value={14}>14 Days</option>
+                <option value={30}>30 Days</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
 
-      {loading && (
-        <p className="text-center text-white/70 animate-pulse">
-          Loading weather data...
-        </p>
-      )}
-      {error && <p className="text-red-400 text-center">{error}</p>}
+        {loading && (
+          <p className="text-center text-white/70 animate-pulse">
+            Loading weather data...
+          </p>
+        )}
+        {error && <p className="text-red-400 text-center">{error}</p>}
 
-      {selectedCity && weather && (
-        <>
-          <HourlyForecast hourly={weather.hourly} />
+        {selectedCity && weather && (
+          <>
+            <HourlyForecast hourly={weather.hourly} />
 
-          <div className="flex flex-col md:flex-row gap-6 w-full">
-            {/* Left: Current Weather */}
-            <div
-              className="md:w-2/3 p-6 rounded-lg border border-white/20 flex flex-col justify-between bg-cover bg-center relative"
-              style={{
-                backgroundImage: `url(${getWeatherBackground(
-                  weather.current_weather?.weathercode
-                )})`,
-              }}
-            >
-              <div className="absolute inset-0 bg-black/50 backdrop-blur-sm rounded-lg z-0"></div>
-              <div className="relative z-10">
-                <h2 className="text-xl font-semibold mb-2">Current Weather</h2>
-                <p className="mb-1">
-                  City: {selectedCity.name}, {selectedCity.country}
-                </p>
-                <p className="mb-1">
-                  Temperature:{" "}
-                  {weather.current_weather?.temperature !== undefined
-                    ? `${weather.current_weather.temperature}°C`
-                    : "Unavailable"}
-                </p>
-                <p className="mb-1">
-                  Wind Speed:{" "}
-                  {weather.current_weather?.windspeed !== undefined
-                    ? `${weather.current_weather.windspeed} km/h`
-                    : "Unavailable"}
-                </p>
-                <p className="mb-4">
-                  Time:{" "}
-                  {weather.current_weather?.time
-                    ? new Date(weather.current_weather.time).toLocaleString()
-                    : "Unavailable"}
-                </p>
+            <div className="flex flex-col md:flex-row gap-6 w-full">
+              {/* Left: Current Weather */}
+              <div
+                className="md:w-2/3 p-20 rounded-lg border border-white/20 flex flex-col text-center justify-between bg-cover bg-center relative"
+                style={{
+                  backgroundImage: `url(${getWeatherBackground(
+                    weather.current_weather?.weathercode
+                  )})`,
+                }}
+              >
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-sm rounded-lg z-0"></div>
+                <div className="relative z-10 gap-4 flex flex-col">
+                  <h2 className="text-xl font-semibold mb-4">Current Weather</h2>
+                  <p className="mb-1 mb-4">
+                    City: {selectedCity.name}, {selectedCity.country}
+                  </p>
+                  <p className="mb-4">
+                    Temperature:{" "}
+                    {weather.current_weather?.temperature !== undefined
+                      ? `${weather.current_weather.temperature}°C`
+                      : "Unavailable"}
+                  </p>
+                  <p className="mb-4">
+                    Wind Speed:{" "}
+                    {weather.current_weather?.windspeed !== undefined
+                      ? `${weather.current_weather.windspeed} km/h`
+                      : "Unavailable"}
+                  </p>
+                  <p className="mb-4">
+                    Time:{" "}
+                    {weather.current_weather?.time
+                      ? new Date(weather.current_weather.time).toLocaleString()
+                      : "Unavailable"}
+                  </p>
 
-                <WeatherSummary code={weather.current_weather?.weathercode} />
+                  <WeatherSummary code={weather.current_weather?.weathercode} />
+                </div>
               </div>
-            </div>
 
-            {/* Right: Daily Forecast */}
-            <DailyForecast daily={weather.daily} forecastDays={forecastDays} />
-          </div>
-        </>
-      )}
-    </main>
+              {/* Right: Daily Forecast */}
+              <DailyForecast daily={weather.daily} forecastDays={forecastDays} />
+            </div>
+          </>
+        )}
+      </main>
+      <footer className="w-full text-center text-white/50 text-sm p-4 border-t border-white/10">
+        <p>
+          &copy; {new Date().getFullYear()} Weather Forecast App. All rights reserved.
+        </p>
+      </footer>
+    </>
   );
 }
