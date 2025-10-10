@@ -7,10 +7,8 @@ export default function LocationSelector({ onCityFound }) {
   const [city, setCity] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // Fetch city suggestions as user types
   useEffect(() => {
     const fetchSuggestions = async () => {
       if (city.trim().length < 2) {
@@ -31,7 +29,7 @@ export default function LocationSelector({ onCityFound }) {
       }
     };
 
-    const debounce = setTimeout(fetchSuggestions, 300); // debounce input
+    const debounce = setTimeout(fetchSuggestions, 300);
     return () => clearTimeout(debounce);
   }, [city]);
 
@@ -41,10 +39,11 @@ export default function LocationSelector({ onCityFound }) {
     setCity(`${name}, ${admin1 || ''}, ${country}`);
     setSuggestions([]);
     setShowDropdown(false);
+    setError(null);
   };
 
   return (
-    <div className="flex flex-col items-center gap-2 mt-4 relative w-full sm:w-80">
+    <div className="relative w-small max-w-md">
       <input
         value={city}
         onChange={(e) => {
@@ -52,7 +51,7 @@ export default function LocationSelector({ onCityFound }) {
           setError(null);
         }}
         placeholder="Start typing a city name..."
-        className="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400 text-black placeholder-gray-400"
+        className="border p-4 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400 text-white placeholder-gray-400"
       />
 
       {showDropdown && suggestions.length > 0 && (
@@ -70,7 +69,7 @@ export default function LocationSelector({ onCityFound }) {
         </ul>
       )}
 
-      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+      {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
     </div>
   );
 }
@@ -78,7 +77,5 @@ export default function LocationSelector({ onCityFound }) {
 LocationSelector.propTypes = {
   onCityFound: PropTypes.func.isRequired,
 };
-
-
 
 

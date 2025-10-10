@@ -10,16 +10,16 @@ export async function getWeather(lat, lon) {
 
   try {
     const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,windspeed_10m,weathercode&temperature_unit=celsius&windspeed_unit=kmh&timezone=auto&start_date=${today}&end_date=${endDate}`
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant,weathercode,sunrise,sunset&timezone=auto&start_date=${today}&end_date=${endDate}`,
+      { next: { revalidate: 600 } } // Revalidate every 10 minutes
     );
 
     if (!response.ok) {
       throw new Error(`Weather API error: ${response.status}`);
     }
-    
 
     const data = await response.json();
-    console.log('Open-Meteo response:', data);
+    console.log('API response:', data);
 
     if (!data || !data.daily || !data.current_weather) {
       throw new Error('Incomplete weather data received');
@@ -31,5 +31,24 @@ export async function getWeather(lat, lon) {
     throw new Error('Unable to fetch weather data. Please try again later.');
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
