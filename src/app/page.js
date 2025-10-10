@@ -62,9 +62,8 @@ export default function Page() {
                 onChange={(e) => setForecastDays(Number(e.target.value))}
                 className="bg-white/10 text-white p-2 rounded border border-white/20 focus:outline-none"
               >
-                <option value={7}>7 Days</option>
-                <option value={14}>14 Days</option>
-                <option value={30}>30 Days</option>
+                <option className="text-black bg-white hover:bg-white/80" value={7}>7 Days</option>
+                <option className="text-black bg-white hover:bg-white/80" value={14}>14 Days</option>
               </select>
             </div>
           </div>
