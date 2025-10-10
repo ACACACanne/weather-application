@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import LocationSelector from "../components/LocationSelector";
-import WeatherSummary from "../components/WeatherSummary";
-import WeatherService from "../components/WeatherService";
-import DayCard from "../components/DayCard";
-import { fetchWeather } from "../utils/fetchWeather";
+import LocationSelector from "@LocationSelectorr";
+import WeatherService from "@WeatherService";
+import WeatherSummary from "@WeatherSummary";
+
 
 export default function Home() {
   const [city, setCity] = useState("Tbilisi");
@@ -82,5 +81,3 @@ export default function Home() {
     </div>
   );
 }
-
-
