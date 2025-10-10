@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Weather Forecast App
+----------------------------------------------------------------------------------------------------------------------------------
+A responsive, modular weather application built with React and Tailwind CSS. It fetches real-time weather data for any city worldwide and presents it with poetic summaries, dynamic backgrounds, and intuitive layout.
 
-## Getting Started
+Features
 
-First, run the development server:
+- Search any city and get current, hourly, and daily forecasts
+- Weather-based background images and silhouette overlays
+- Poetic weather summaries with practical advice
+- Fully responsive design with collapsible controls on mobile
+- Modular components for scalability and maintainability
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Technologies
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- React (Next.js)
+- Tailwind CSS
+- Open-Meteo API
+- Modular component architecture
+- Responsive design principles
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+https://weather-application-jet-phi.vercel.app/
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Reflection
+Building this app was a journey of blending technical precision with artistic expression. I wanted more than just a weather dashboard, I envisioned an experience that feels alive, poetic, and emotionally resonant.
+What I Learned
+• 	Modular Design: Breaking the app into reusable components made it easier to maintain and scale.
+• 	Responsive Layouts: Designing for all devices taught me how to balance flexibility with clarity.
+• 	Poetic UI: Writing weather summaries that evoke emotion helped me explore storytelling through code.
 
-## Learn More
+What I’m Proud Of
+• 	The way the app feels — not just how it works.
+• 	The seamless integration of visuals, motion, and meaning.
+• 	The clarity and elegance of the final layout.
 
-To learn more about Next.js, take a look at the following resources:
+What’s Next
+• 	Expand the visual library with animated transitions
+• 	Add multilingual support for summaries
+• 	Explore dynamic overlays based on weather intensity
+• 	Modularize the footer and add theme toggles
+This app is more than a forecast — it’s a reflection of how I see technology: as a canvas for creativity, clarity, and connection.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
