@@ -1,6 +1,5 @@
-'use client';
-
-import { WiRain, WiCloudy, WiDaySunny, WiFog } from "react-icons/wi";
+"use client";
+import { WiDaySunny, WiRain, WiCloudy, WiFog } from "react-icons/wi";
 
 function getIcon(condition) {
   const lower = condition.toLowerCase();
@@ -30,4 +29,5 @@ export default function WeatherSummary({ weather }) {
     </div>
   );
 }
+
 
