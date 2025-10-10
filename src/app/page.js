@@ -2,12 +2,16 @@
 import LocationSelector from "@/components/LocationSelector";
 import { useEffect, useState } from "react";
 import { getWeather } from "@/components/WeatherService";
+import HourlyForecast from "@/components/HourlyForecast";
+import DailyForecast from "@/components/DailyForecast";
+import WeatherSummary from "@/components/WeatherSummary";
 
 export default function Page() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [forecastDays, setForecastDays] = useState(7);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +19,7 @@ export default function Page() {
       setLoading(true);
       setError(null);
       try {
-        const data = await getWeather(selectedCity.lat, selectedCity.lon);
+        const data = await getWeather(selectedCity.lat, selectedCity.lon, forecastDays);
         setWeather(data);
       } catch (err) {
         setError(err.message || 'Unable to fetch weather data.');
@@ -25,90 +29,78 @@ export default function Page() {
       }
     };
     fetchData();
-  }, [selectedCity]);
+  }, [selectedCity, forecastDays]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-black via-teal-900 to-black text-white flex flex-col items-center justify-start p-4 ">
-      <div className="mt-4 w-full max-w-md bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6 border border-white/20">
-        <h1 className="text-3xl font-bold text-center mb-4 tracking-wide">
-          🌤️ Weather Snapshot
-        </h1>
-        <p className="text-center text-sm text-white/80 mb-6">
-          Search for a city to see the forecast
-        </p>
+    <main className="min-h-screen bg-gradient-to-br from-black via-teal-900 to-black text-white p-6 flex flex-col items-center">
+      {/* Top Controls */}
+      <div className="w-full mb-8">
+        <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-4 bg-white/10 p-6 rounded-md border border-white/20">
+          <div className="flex flex-col">
+            <h1 className="text-3xl font-bold">Weather Forecast</h1>
+            <p className="text-white/80 text-sm">Get data for any city worldwide.</p>
+          </div>
+          <div className="flex-grow">
+            <LocationSelector onCityFound={setSelectedCity} />
+          </div>
+          <div className="flex items-center gap-2">
+            <label htmlFor="forecast-range" className="text-white text-sm">Forecast Range:</label>
+            <select
+              id="forecast-range"
+              value={forecastDays}
+              onChange={(e) => setForecastDays(Number(e.target.value))}
+              className="bg-white/10 text-white p-2 rounded border border-white/20 focus:outline-none"
+            >
+              <option value={7}>7 Days</option>
+              <option value={14}>14 Days</option>
+              <option value={30}>30 Days</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-        <LocationSelector onCityFound={setSelectedCity} />
+      {loading && <p className="text-center text-white/70 animate-pulse">Loading weather data...</p>}
+      {error && <p className="text-red-400 text-center">{error}</p>}
 
-        {loading && (
-          <p className="mt-4 text-center text-white/70 animate-pulse">Loading weather data...</p>
-        )}
+      {selectedCity && weather && (
+        <>
+          <HourlyForecast hourly={weather.hourly} />
 
-        {error && (
-          <p className="mt-4 text-red-400 text-center">{error}</p>
-        )}
-
-        {selectedCity && weather && (
-          <>
-            {/* Current Weather */}
-            <div className="mt-6 bg-white/10 p-4 rounded-lg border border-white/20">
+          <div className="flex flex-col md:flex-row gap-6 w-full">
+            {/* Left: Current Weather */}
+            <div className="md:w-2/3 bg-white/10 p-6 rounded-lg border border-white/20 flex flex-col justify-between">
               <h2 className="text-xl font-semibold mb-2">Current Weather</h2>
-              <p>City: {selectedCity.name}, {selectedCity.country}</p>
-              <p>
+              <p className="mb-1">City: {selectedCity.name}, {selectedCity.country}</p>
+              <p className="mb-1">
                 Temperature:{" "}
                 {weather.current_weather?.temperature !== undefined
                   ? `${weather.current_weather.temperature}°C`
                   : "Unavailable"}
               </p>
-              <p>
+              <p className="mb-1">
                 Wind Speed:{" "}
                 {weather.current_weather?.windspeed !== undefined
                   ? `${weather.current_weather.windspeed} km/h`
                   : "Unavailable"}
               </p>
-              <p>
+              <p className="mb-4">
                 Time:{" "}
                 {weather.current_weather?.time
                   ? new Date(weather.current_weather.time).toLocaleString()
                   : "Unavailable"}
               </p>
+
+              <WeatherSummary code={weather.current_weather?.weathercode} />
             </div>
 
-            {/* Next 7 Days */}
-            {weather.daily?.time?.length > 0 ? (
-              <div className="mt-4 bg-white/10 p-4 rounded-lg border border-white/20">
-                <h2 className="text-xl font-semibold mb-2">Next 7 Days</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  {weather.daily.time.slice(0, 7).map((date, index) => (
-                    <div
-                      key={date}
-                      className="bg-white/20 rounded-md p-3 text-center shadow-sm"
-                    >
-                      <p className="text-sm font-medium">
-                        {new Date(date).toLocaleDateString([], {
-                          weekday: 'short',
-                          day: 'numeric',
-                          month: 'short',
-                        })}
-                      </p>
-                      <p className="text-lg font-semibold">
-                        {weather.daily.temperature_2m_max?.[index]}° / {weather.daily.temperature_2m_min?.[index]}°C
-                      </p>
-                      <p className="text-sm text-white/70">
-                        Wind: {weather.daily.windspeed_10m?.[index]} km/h
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <p className="mt-4 text-yellow-300 text-center">
-                Daily forecast is not available for this location. Try a nearby city or check back later.
-              </p>
-            )}
-          </>
-        )}
-      </div>
+            {/* Right: Daily Forecast */}
+            <DailyForecast daily={weather.daily} forecastDays={forecastDays} />
+          </div>
+        </>
+      )}
     </main>
   );
 }
+
+
 
