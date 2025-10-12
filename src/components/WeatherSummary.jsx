@@ -29,7 +29,7 @@ const getSummary = (code) => {
 
 const WeatherSummary = ({ code }) => {
   return (
-    <div className="mt-4 bg-white/20 p-4 md:p-6 mb-4 rounded backdrop-semi-blur-sm border border-white/10">
+    <div className="mt-4 bg-white/20 p-4 md:p-6 mb-4 rounded  border border-white/10">
       <p className="text-sm text-white/80 italic">{getSummary(code)}</p>
     </div>
   );
